@@ -33,6 +33,10 @@ gestures:addEventListener("swipe", hero, function(event)
         hero:jumpLeft()
     elseif event.direction == "leftDown" then
         hero:diveLeft()
+    elseif event.direction == "right" then
+        hero:dashRight()
+    elseif event.direction == "left" then
+        hero:dashLeft()
     end
 end)
 

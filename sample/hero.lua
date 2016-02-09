@@ -2,6 +2,7 @@ local Hero = {}
 
 local jumpXForce = 5
 local jumpYForce = -10
+local dashXForce = 10
 
 function Hero.new(displayHandler, physicsHandler)
     local hero = displayHandler.newRect(0, 0, 30, 30)
@@ -53,6 +54,14 @@ function Hero.new(displayHandler, physicsHandler)
     end
 
     function hero:diveLeft()
+    end
+
+    function hero:dashRight()
+        self:applyLinearImpulse(dashXForce, 1, self.x, self.y)
+    end
+
+    function hero:dashLeft()
+        self:applyLinearImpulse(dashXForce*-1, 1, self.x, self.y)
     end
 
     return hero
