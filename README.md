@@ -1,15 +1,17 @@
 ## Gesture Recognizer for Corona SDK
 
-Gesture Recognizer for Corona SDK extends the touching functionality of the framework, giving additional options for handling touch events, such as swiping and moving, using the same approach of listening to interaction events.
+Gesture Recognizer for Corona SDK extends the touching functionality of the framework, giving additional options for handling touch events in regard of a ```DisplayObject```.
+
+The tests were written using [busted] unit testing framework for Lua.
 
 ### How to use it
 
-Require the module:
+Require the module and create a new instance, passing the ```Runtime```:
 ```lua
-local gestures = require("gestures")
+local gestures = require("gestures").new(Runtime)
 ```
 
-Given any ```DisplayObject```
+Given a ```DisplayObject```
 ```lua
 local hero = makeHero()
 ```
@@ -42,7 +44,7 @@ gestures:addEventListener("swipe", hero, function(event)
 end)
 ```
 
-### This is a work in progress. There's a lot TODO:
+### This is a work in progress. There's a lot to do, such as:
 
 * Make it possible to fine-tune the events recognition parameters through configuration;
 * Add simple ```swipeLeft``` and ```swipeRight``` events, as a complement to the existing ```swipeLeftDown```, ```swipeLeftUp```, ```swipeRightDown``` and ```swipeRightUp``` events;
@@ -50,3 +52,5 @@ end)
 ### License
 
 The code is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+
+[busted]: http://olivinelabs.com/busted/
