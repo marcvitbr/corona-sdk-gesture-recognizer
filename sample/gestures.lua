@@ -71,6 +71,38 @@ local function tookTooLongToEndSwipe(gestures)
     return gestures.touchTotalTime > swipeTimeBetweenStartAndEnd
 end
 
+local function checkSwipeRightEvents(gestures, event)
+    if swipedRightUp(gestures, event) then
+        fireEventWithData("swipe", { direction = "rightUp" })
+        return
+    end
+
+    if swipedRightDown(gestures, event) then
+        fireEventWithData("swipe", { direction = "rightDown" })
+        return
+    end
+
+    if swipedRight(gestures, event) then
+        fireEventWithData("swipe", { direction = "right" })
+    end
+end
+
+local function checkSwipeLeftEvents(gestures, event)
+    if swipedLeftUp(gestures, event) then
+        fireEventWithData("swipe", { direction = "leftUp" })
+        return
+    end
+
+    if swipedLeftDown(gestures, event) then
+        fireEventWithData("swipe", { direction = "leftDown" })
+        return
+    end
+
+    if swipedLeft(gestures, event) then
+        fireEventWithData("swipe", { direction = "left" })
+    end
+end
+
 local function dealWithEndedTouchPhase(gestures, event)
     gestures.isTouchingScreen = false
 
@@ -80,29 +112,9 @@ local function dealWithEndedTouchPhase(gestures, event)
 
     if tookTooLongToEndSwipe(gestures) then return end
 
-    if swipedRight(gestures, event) then
-        fireEventWithData("swipe", { direction = "right" })
-    end
+    checkSwipeRightEvents(gestures, event)
 
-    if swipedLeft(gestures, event) then
-        fireEventWithData("swipe", { direction = "left" })
-    end
-
-    if swipedRightUp(gestures, event) then
-        fireEventWithData("swipe", { direction = "rightUp" })
-    end
-
-    if swipedRightDown(gestures, event) then
-        fireEventWithData("swipe", { direction = "rightDown" })
-    end
-
-    if swipedLeftUp(gestures, event) then
-        fireEventWithData("swipe", { direction = "leftUp" })
-    end
-
-    if swipedLeftDown(gestures, event) then
-        fireEventWithData("swipe", { direction = "leftDown" })
-    end
+    checkSwipeLeftEvents(gestures, event)
 end
 
 function Gestures.onTouchScreen(event)
