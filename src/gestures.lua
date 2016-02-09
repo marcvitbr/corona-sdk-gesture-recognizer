@@ -4,6 +4,7 @@ local Gestures_mt = { __index = Gestures }
 local swipeGapAtX = 100
 local swipeGapAtY = 50
 local swipeTimeBetweenStartAndEnd = 500
+local touchGapAtX = 5
 
 local function dealWithBeganTouchPhase(gestures, event)
     gestures.touchStartX = event.x
@@ -130,12 +131,12 @@ end
 
 local function isTouchingRightToSubscribersObject(gestures, subscriber)
     if subscriber == nil or subscriber.object == nil then return false end
-    return gestures.touchCurrentX > subscriber.object.x
+    return gestures.touchCurrentX > subscriber.object.x + touchGapAtX
 end
 
 local function isTouchingLeftToSubscribersObject(gestures, subscriber)
     if subscriber == nil or subscriber.object == nil then return false end
-    return gestures.touchCurrentX < subscriber.object.x
+    return gestures.touchCurrentX < subscriber.object.x - touchGapAtX
 end
 
 function Gestures.onUpdate(event)
