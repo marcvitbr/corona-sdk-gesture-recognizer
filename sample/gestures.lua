@@ -39,6 +39,38 @@ local function fireEventWithData(eventKey, data)
     end)
 end
 
+local function swipedRight(gestures, event)
+    return event.x > gestures.touchStartX + swipeGapAtX
+end
+
+local function swipedLeft(gestures, event)
+    return event.x < gestures.touchStartX - swipeGapAtX
+end
+
+local function swipedRightUp(gestures, event)
+    return event.x > gestures.touchStartX + swipeGapAtX
+            and event.y < gestures.touchStartY - swipeGapAtY
+end
+
+local function swipedRightDown(gestures, event)
+    return event.x > gestures.touchStartX + swipeGapAtX
+            and event.y > gestures.touchStartY + swipeGapAtY
+end
+
+local function swipedLeftUp(gestures, event)
+    return event.x < gestures.touchStartX - swipeGapAtX
+            and event.y < gestures.touchStartY - swipeGapAtY
+end
+
+local function swipedLeftDown(gestures, event)
+    return event.x < gestures.touchStartX - swipeGapAtX
+            and event.y > gestures.touchStartY + swipeGapAtY
+end
+
+local function tookTooLongToEndSwipe(gestures)
+    return gestures.touchTotalTime > swipeTimeBetweenStartAndEnd
+end
+
 local function dealWithEndedTouchPhase(gestures, event)
     gestures.isTouchingScreen = false
 
@@ -46,35 +78,29 @@ local function dealWithEndedTouchPhase(gestures, event)
     gestures.touchCurrentY = event.y
     gestures.touchTotalTime = event.time - gestures.touchStartTime
 
-    local tookTooLongToEndSwipe = gestures.touchTotalTime > swipeTimeBetweenStartAndEnd
+    if tookTooLongToEndSwipe(gestures) then return end
 
-    if tookTooLongToEndSwipe then return end
+    if swipedRight(gestures, event) then
+        fireEventWithData("swipe", { direction = "right" })
+    end
 
-    local swipedRightUp = event.x > gestures.touchStartX + swipeGapAtX
-        and event.y < gestures.touchStartY - swipeGapAtY
+    if swipedLeft(gestures, event) then
+        fireEventWithData("swipe", { direction = "left" })
+    end
 
-    local swipedRightDown = event.x > gestures.touchStartX + swipeGapAtX
-        and event.y > gestures.touchStartY + swipeGapAtY
-
-    local swipedLeftUp = event.x < gestures.touchStartX - swipeGapAtX
-        and event.y < gestures.touchStartY - swipeGapAtY
-
-    local swipedLeftDown = event.x < gestures.touchStartX - swipeGapAtX
-        and event.y > gestures.touchStartY + swipeGapAtY
-
-    if swipedRightUp then
+    if swipedRightUp(gestures, event) then
         fireEventWithData("swipe", { direction = "rightUp" })
     end
 
-    if swipedRightDown then
+    if swipedRightDown(gestures, event) then
         fireEventWithData("swipe", { direction = "rightDown" })
     end
 
-    if swipedLeftUp then
+    if swipedLeftUp(gestures, event) then
         fireEventWithData("swipe", { direction = "leftUp" })
     end
 
-    if swipedLeftDown then
+    if swipedLeftDown(gestures, event) then
         fireEventWithData("swipe", { direction = "leftDown" })
     end
 end

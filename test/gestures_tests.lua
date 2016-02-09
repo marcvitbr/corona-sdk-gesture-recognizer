@@ -160,6 +160,86 @@ describe("When testing the gestures module", function()
         assert.is_not_true(wasSwipeRightUpEventFired)
     end)
 
+    it("Should NOT fire the 'swipe' event, with direction 'right', if the gesture is too short", function()
+        local wasSwipeRightEventFired = false
+
+        gestures:addEventListener("swipe", someObject,
+            function(event)
+                if event.direction == "right" then
+                    wasSwipeRightEventFired = true
+                end
+            end)
+
+        local constantTouchY = 100
+
+        gestures.onTouchScreen({ time=1, phase = "began", x = 100, y = constantTouchY })
+        gestures.onTouchScreen({ time=100, phase = "moved", x = 120, y = constantTouchY })
+        gestures.onTouchScreen({ time=250, phase = "moved", x = 140, y = constantTouchY })
+        gestures.onTouchScreen({ time=400, phase = "ended", x = 160, y = constantTouchY })
+
+        assert.is_not_true(wasSwipeRightEventFired)
+    end)
+
+    it("Should fire the 'swipe' event, with direction 'right'", function()
+        local wasSwipeRightEventFired = false
+
+        gestures:addEventListener("swipe", someObject,
+            function(event)
+                if event.direction == "right" then
+                    wasSwipeRightEventFired = true
+                end
+            end)
+
+        local constantTouchY = 100
+
+        gestures.onTouchScreen({ time=1, phase = "began", x = 100, y = constantTouchY })
+        gestures.onTouchScreen({ time=100, phase = "moved", x = 200, y = constantTouchY })
+        gestures.onTouchScreen({ time=250, phase = "moved", x = 300, y = constantTouchY })
+        gestures.onTouchScreen({ time=400, phase = "ended", x = 400, y = constantTouchY })
+
+        assert.is_true(wasSwipeRightEventFired)
+    end)
+
+    it("Should NOT fire the 'swipe' event, with direction 'left', if the gesture is too short", function()
+        local wasSwipeLeftEventFired = false
+
+        gestures:addEventListener("swipe", someObject,
+            function(event)
+                if event.direction == "left" then
+                    wasSwipeLeftEventFired = true
+                end
+            end)
+
+        local constantTouchY = 100
+
+        gestures.onTouchScreen({ time=1, phase = "began", x = 160, y = constantTouchY })
+        gestures.onTouchScreen({ time=100, phase = "moved", x = 140, y = constantTouchY })
+        gestures.onTouchScreen({ time=250, phase = "moved", x = 120, y = constantTouchY })
+        gestures.onTouchScreen({ time=400, phase = "ended", x = 100, y = constantTouchY })
+
+        assert.is_not_true(wasSwipeLeftEventFired)
+    end)
+
+    it("Should fire the 'swipe' event, with direction 'left'", function()
+        local wasSwipeLeftEventFired = false
+
+        gestures:addEventListener("swipe", someObject,
+            function(event)
+                if event.direction == "left" then
+                    wasSwipeLeftEventFired = true
+                end
+            end)
+
+        local constantTouchY = 100
+
+        gestures.onTouchScreen({ time=1, phase = "began", x = 400, y = constantTouchY })
+        gestures.onTouchScreen({ time=100, phase = "moved", x = 300, y = constantTouchY })
+        gestures.onTouchScreen({ time=250, phase = "moved", x = 200, y = constantTouchY })
+        gestures.onTouchScreen({ time=400, phase = "ended", x = 100, y = constantTouchY })
+
+        assert.is_true(wasSwipeLeftEventFired)
+    end)
+
     it("Should fire the 'swipe' event, with direction 'rightUp'", function()
         gestures.onTouchScreen({ time = 1, phase = "began", x = 100, y = 100 })
         gestures.onTouchScreen({ time = 100, phase = "moved", x = 200, y = 80 })
