@@ -47,7 +47,8 @@ end)
 ### This is a work in progress. There's a lot to do, such as:
 
 * Make it possible to fine-tune the events recognition parameters through configuration;
-* Add simple ```swipeLeft``` and ```swipeRight``` events, as a complement to the existing ```swipeLeftDown```, ```swipeLeftUp```, ```swipeRightDown``` and ```swipeRightUp``` events;
+* ~~Add simple ```swipeLeft``` and ```swipeRight``` events, as a complement to the existing ```swipeLeftDown```, ```swipeLeftUp```, ```swipeRightDown``` and ```swipeRightUp``` events~~;
+* ~~Change the name of ```moving``` events to ```touch``` events. Also, use ```direction``` to distinguish right and left, instead of ```phase```~~;
 
 ### License
 
